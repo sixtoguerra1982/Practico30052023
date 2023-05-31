@@ -1,0 +1,1 @@
+<image src="tipos_de_join.jpg" alt="SQL JOINS">

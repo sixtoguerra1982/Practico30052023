@@ -1,3 +1,5 @@
+-- 0
+DROP DATABASE blog;
 --Creamos la base de datos
 CREATE DATABASE blog;
 --Nos conectamos a la base de datos
@@ -21,24 +23,47 @@ CREATE TABLE post(
     );
 CREATE TABLE comentario(
     Id INTEGER PRIMARY KEY,
-    post_id INTEGER, 
     usuario_id INTEGER, 
+    post_id INTEGER, 
     texto VARCHAR(40),
     fecha DATE,
-    FOREIGN KEY (post_id) REFERENCES
-    post(id),
-    FOREIGN KEY (usuario_id) REFERENCES
-    usuario(id)
-    );
     
+    FOREIGN KEY (usuario_id) REFERENCES
+    usuario(id),
+    
+    FOREIGN KEY (post_id) REFERENCES
+    post(id)
+    );
+
+
+--3. Insertar los siguientes registros.  
+
 \copy usuario FROM '/home/sixtolio/Escritorio/Proyectos_JS/Modulo5/Grupal/usuario.csv' csv HEADER;
 
 
 \copy post FROM '/home/sixtolio/Escritorio/Proyectos_JS/Modulo5/Grupal/post.csv' csv HEADER;
 
+\copy comentario FROM '/home/sixtolio/Escritorio/Proyectos_JS/Modulo5/Grupal/comentario.csv' csv HEADER;
 
--- Seleccionar el correo, id y título de todos los post publicados por el usuario 5.
 
+--4 Seleccionar el correo, id y título de todos los post publicados por el usuario 5.
 
 SELECT * FROM post WHERE usuario_id = 5;
+
+--5 Listar el correo, id y el detalle de todos los comentarios 
+--que no hayan sido realizados por el usuario con email ​usuario06@hotmail.com​
+
+SELECT u.id as user_id, u.email, c.id, c.texto FROM comentario AS c INNER JOIN usuario AS u ON c.usuario_id = u.id 
+WHERE u.id <> 6;
+
+
+
+
+--6. Listar los usuarios que no han publicado ningún post. 
+-- SELECT * FROM post JOIN usuario ON post.usuario_id = usuario.id;
+
+SELECT * FROM usuario FULL JOIN post ON usuario.id = post.usuario_id WHERE post.usuario_id IS NULL;
+
+
+
 
